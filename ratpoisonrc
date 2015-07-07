@@ -1,0 +1,15 @@
+set border 2
+startup_message off 
+unbind k
+escape C-x
+bind a delete
+bind A-Tab next
+bind A-Caps prev
+exec xterm -rv
+# kill old dzen process, start the conky piping to dzen process, set padding, and initially show statusbar
+addhook quit exec killall dzen2
+set padding 0 0 0 12 
+exec conky | dzen2 -y '1300' -ta c -e 'sigusr1=hide;sigusr2=unhide' -h '12' -fn 'inconsolata-g' &
+ 
+ # script to smartly toggle dzen --> all logic there
+ bind d exec ~/.ratpoison/dzconky.rp
