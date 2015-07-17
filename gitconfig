@@ -1,7 +1,3 @@
-[user]
-	email = yulia.startsev@gmail.com
-	name = ioctaptceb
-
 [alias]
   ack="grep --break --heading -A3 -B3"
   b = branch
