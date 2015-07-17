@@ -1,3 +1,75 @@
 [user]
 	email = yulia.startsev@gmail.com
-	name = yulia startsev
+	name = ioctaptceb
+
+[alias]
+  ack="grep --break --heading -A3 -B3"
+  b = branch
+  ba = branch -a
+  ci = commit
+  co = checkout
+  corebase = "!f(){ git checkout ${1} && git stash && git rebase master && git stash pop; };f" 
+  d = diff
+  dc = diff --cached
+  dw = diff --color-words
+  fp = format-patch
+  g = !git gui &
+  gp = grep
+  gr = log --graph
+  go = log --graph --pretty=oneline --abbrev-commit
+  k = !gitk &
+  ka = !gitk --all &
+  l = log --decorate=full
+  lc = log ORIG_HEAD.. --stat --no-merges
+  lp = log --patch-with-stat
+  mnf = merge --no-ff
+  mnff = merge --no-ff
+  mt = mergetool
+  p = format-patch -1
+  rci =commit --amend --reuse-message=HEAD
+  rerebase = "!f(){ git stash && git rebase master && git stash pop; };f"
+  rmbranch = "!f(){ git branch -d ${1} && git push origin --delete ${1}; };f"
+  s = status
+  serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
+  sra = svn rebase --all
+  sh = !git-sh
+  st = status
+  stm = status --untracked=no
+  stfu = status --untracked=no
+  pullsrb = !git stash save && git pull --rebase && git stash pop && echo 'Success!'
+
+[core]
+  excludesfile = ~/.gitignore
+  pager=less -FXRS
+  editor = vim +0 -f
+
+[color]
+  ui = auto
+  grep = auto
+
+[color "diff"]
+  meta = white magenta bold
+
+[color "grep"]
+  filename   = magenta
+  linenumber = green
+  match      = red bold
+
+[diff "json"]
+  textconv   = "python -mjson.tool"
+
+[grep]
+  lineNumber = true
+
+[merge]
+  tool=gvimdiff
+
+[push]
+  default = tracking
+
+[clean]
+  requireForce = false
+
+[include]
+  path = ~/.gitconfig.local
+

@@ -42,16 +42,14 @@ set showmatch
 set ignorecase
 set hlsearch
 set title
-
 set expandtab
 set tabstop=2
 set shiftwidth=2
-
 set hidden
-
 set noswapfile
 
-
+cnoremap <SPACE><SPACE> <ENTER>
+inoremap jj <esc>
 nnoremap ; :
 
 " re-open read-only files with sudo

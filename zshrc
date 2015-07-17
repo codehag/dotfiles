@@ -80,6 +80,40 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias bat="upower -i /org/freedesktop/UPower/devices/DisplayDevice"
+alias v="vim"
+alias zshrc='$EDITOR ~/.zshrc' # Quick access to the ~/.zshrc file
+alias la='ll -a'
+alias grep='grep --color'
+alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS} '
+
+alias t='tail -f'
+
+# Command line head / tail shortcuts
+alias -g H='| head'
+alias -g T='| tail'
+alias -g G='| grep'
+alias -g L="| less"
+alias -g M="| most"
+alias -g LL="2>&1 | less"
+alias -g CA="2>&1 | cat -A"
+alias -g NE="2> /dev/null"
+alias -g NUL="> /dev/null 2>&1"
+alias -g P="2>&1| pygmentize -l pytb"
+
+alias dud='du -d 1 -h'
+alias duf='du -sh *'
+alias fd='find . -type d -name'
+alias ff='find . -type f -name'
+
+alias h='history'
+alias hgrep="fc -El 0 | grep"
+alias p='ps -f'
+alias psaux='ps aux'
+alias sortnr='sort -n -r'
+alias unexport='unset'
+
+alias whereami=display_info
+
 export PATH="$PATH:/usr/local/bin"
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export PYTHONPATH="${PYTHONPATH}:$HOME/sites"
