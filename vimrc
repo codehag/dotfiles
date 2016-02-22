@@ -14,6 +14,7 @@ Plug 'bling/vim-airline'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-scripts/Rename'
 Plug 'sjl/gundo.vim'
+Plug 'editorconfig/editorconfig-vim'
 
 " Syntaxes
 Plug 'fatih/vim-go', { 'for': 'go' }
@@ -21,7 +22,7 @@ Plug 'plasticboy/vim-markdown', { 'for': 'mkd' }
 Plug 'tpope/vim-rails', { 'for': 'ruby' }
 Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 Plug 'chase/vim-ansible-yaml', { 'for': 'ansible' }
-" Plug 'tpope/vim-liquid', { 'for': 'markdown' }
+Plug 'isRuslan/vim-es6'
 
 " Themes
 Plug 'junegunn/seoul256.vim'
@@ -34,6 +35,11 @@ Plug 'reedes/vim-colors-pencil'
 
 call plug#end()
 
+" ---------------------------------------------------------------------------
+" Global file type settings
+" ---------------------------------------------------------------------------
+
+set encoding=utf-8
 set nocompatible
 
 set nofoldenable
@@ -42,11 +48,22 @@ set showmatch
 set ignorecase
 set hlsearch
 set title
-set expandtab
 set tabstop=2
 set shiftwidth=2
+set expandtab
 set hidden
 set noswapfile
+set pastetoggle=<C-\>
+set guioptions-=r
+set guioptions-=L
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+" ---------------------------------------------------------------------------
+" Local file type settings
+" ---------------------------------------------------------------------------
+" autocmd FileType javascript setlocal shiftwidth=4 tabstop=4
 
 cnoremap <SPACE><SPACE> <ENTER>
 inoremap jj <esc>
@@ -73,8 +90,21 @@ nnoremap <C-L> <C-W>l
 nnoremap <tab> gt
 nnoremap <S-tab> gT
 
+let g:syntastic_mode_map = { 'mode': 'active',
+                            \ 'active_filetypes': ['python', 'javascript'],
+                            \ 'passive_filetypes': [] }
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['eslint']
+
+
 " let g:airline#extensions#tabline#enabled = 1
-let g:airline_section_y = '#%{bufnr("%")}'
+" let g:airline_section_y = '#%{bufnr("%")}'
+let g:airline_powerline_fonts = 1
+let g:airline_theme='dark'
 
 " show max 30 search results (default is 10)
 let g:ctrlp_match_window = 'max:30'
@@ -84,8 +114,11 @@ let g:ctrlp_custom_ignore = {
   \ 'file': 'tags$',
   \ }
 
+let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
+
 nnoremap <C-N> :NERDTreeToggle<CR>
 
+nnoremap <C-Z> :CtrlP<CR>
 nnoremap <C-A> :Ack!<space>
 nnoremap <C-X> :AckFromSearch!<CR>
 
@@ -95,6 +128,9 @@ nnoremap <F5> :GundoToggle<CR>
 
 set noshowmode
 let g:airline_powerline_fonts = 1
+
+" remove white space on save
+autocmd BufWritePre * :%s/\s\+$//e
 
 " file type tweaks
 au BufRead,BufNewFile *.hamlc set ft=haml
@@ -118,7 +154,7 @@ function! s:rotate_colors()
 	redraw
 	echo name
 endfunction
-nnoremap <F8> :call <SID>rotate_colors()<cr>
+nnoremap <F6> :call <SID>rotate_colors()<cr>
 
 " TODO make this work :)
 function! Pandoc()
@@ -126,6 +162,11 @@ function! Pandoc()
 	let l:to = expand("%:p:r")
 	!pandoc expand("%:p") -o expand("%:p:r")
 endfunction
+
+"if exists("&relativenumber")
+"  set relativenumber
+"  au BufReadPost * set relativenumber
+" endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RENAME CURRENT FILE
@@ -140,3 +181,38 @@ function! RenameFile()
 	endif
 endfunction
 "map <leader>n :call RenameFile()<cr>
+
+" toggles between showing tabs and using standard listchars
+function! SeeTab()
+  if !exists("g:SeeTabEnabled")
+    let g:SeeTabEnabled = 1
+    let g:SeeTab_list = &list
+    let g:SeeTab_listchars = &listchars
+    set listchars=eol:¬,tab:\|\·,trail:~
+    set list
+  else
+    let &list = g:SeeTab_list
+    let &listchars = &listchars
+    silent! exe "hi ".substitute(g:SeeTabSpecialKey,'xxx','','e')
+    unlet g:SeeTabEnabled g:SeeTab_list g:SeeTab_listchars
+  endif
+endfunc
+com! -nargs=0 SeeTab :call SeeTab()
+
+function! SeeAll()
+  if !exists("g:SeeTabEnabled")
+    let g:SeeTabEnabled = 1
+    let g:SeeTab_list = &list
+    let g:SeeTab_listchars = &listchars
+    set listchars=tab:\|\·,trail:~,extends:>,precedes:<,space:\·
+    set list
+  else
+    let &list = g:SeeTab_list
+    let &listchars = &listchars
+    silent! exe "hi ".substitute(g:SeeTabSpecialKey,'xxx','','e')
+    unlet g:SeeTabEnabled g:SeeTab_list g:SeeTab_listchars
+  endif
+endfunc
+com! -nargs=0 SeeAll :call SeeAll()
+
+SeeAll
