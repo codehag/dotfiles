@@ -3,6 +3,9 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
 Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'pmsorhaindo/syntastic-local-eslint.vim'
+Plug 'jelera/vim-javascript-syntax'
+Plug 'nathanaelkane/vim-indent-guides'
 Plug 'https://github.com/kien/ctrlp.vim'
 Plug 'tpope/vim-bundler'
 Plug 'godlygeek/tabular'
@@ -15,6 +18,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-scripts/Rename'
 Plug 'sjl/gundo.vim'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'majutsushi/tagbar'
+Plug 'ternjs/tern_for_vim'
 
 " Syntaxes
 Plug 'fatih/vim-go', { 'for': 'go' }
@@ -32,6 +37,9 @@ Plug 'croaker/mustang-vim'
 Plug 'CruizeMissile/Revolution.vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'reedes/vim-colors-pencil'
+Plug 'scwood/vim-hybrid'
+Plug 'Lokaltog/vim-distinguished'
+Plug 'morhetz/gruvbox'
 
 call plug#end()
 
@@ -57,9 +65,6 @@ set pastetoggle=<C-\>
 set guioptions-=r
 set guioptions-=L
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 " ---------------------------------------------------------------------------
 " Local file type settings
 " ---------------------------------------------------------------------------
@@ -90,16 +95,20 @@ nnoremap <C-L> <C-W>l
 nnoremap <tab> gt
 nnoremap <S-tab> gT
 
+" ----------------------------------------------------------------------------
+" syntastic setup
+" ----------------------------------------------------------------------------
+
 let g:syntastic_mode_map = { 'mode': 'active',
-                            \ 'active_filetypes': ['python', 'javascript'],
+                            \ 'active_filetypes': ['python', 'javascript', 'jsx' ],
                             \ 'passive_filetypes': [] }
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_loc_list_height = 3
 let g:syntastic_javascript_checkers = ['eslint']
-
 
 " let g:airline#extensions#tabline#enabled = 1
 " let g:airline_section_y = '#%{bufnr("%")}'
@@ -114,7 +123,12 @@ let g:ctrlp_custom_ignore = {
   \ 'file': 'tags$',
   \ }
 
-let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+" ----------------------------------------------------------------------------
+" general setup
+" ----------------------------------------------------------------------------
 
 nnoremap <C-N> :NERDTreeToggle<CR>
 
@@ -123,8 +137,9 @@ nnoremap <C-A> :Ack!<space>
 nnoremap <C-X> :AckFromSearch!<CR>
 
 let g:seoul256_background = 233
-colo seoul256
+colo distinguished
 nnoremap <F5> :GundoToggle<CR>
+nnoremap <C-E> :TagbarToggle<CR>
 
 set noshowmode
 let g:airline_powerline_fonts = 1
@@ -136,7 +151,7 @@ autocmd BufWritePre * :%s/\s\+$//e
 au BufRead,BufNewFile *.hamlc set ft=haml
 
 " ----------------------------------------------------------------------------
-" <F8> | Color scheme selector
+" <F6> | Color scheme selector
 " ----------------------------------------------------------------------------
 function! s:rotate_colors()
 	if !exists('s:colors_list')
@@ -181,6 +196,11 @@ function! RenameFile()
 	endif
 endfunction
 "map <leader>n :call RenameFile()<cr>
+
+
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
 
 " toggles between showing tabs and using standard listchars
 function! SeeTab()
