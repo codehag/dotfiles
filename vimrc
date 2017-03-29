@@ -4,8 +4,7 @@ Plug 'tpope/vim-sensible'
 Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'pmsorhaindo/syntastic-local-eslint.vim'
-Plug 'jelera/vim-javascript-syntax'
-Plug 'nathanaelkane/vim-indent-guides'
+Plug 'Yggdroot/indentLine'
 Plug 'https://github.com/kien/ctrlp.vim'
 Plug 'tpope/vim-bundler'
 Plug 'godlygeek/tabular'
@@ -15,19 +14,30 @@ Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'mileszs/ack.vim', { 'on': 'Ack' }
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-fugitive'
-Plug 'vim-scripts/Rename'
 Plug 'sjl/gundo.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'majutsushi/tagbar'
 Plug 'ternjs/tern_for_vim'
+Plug 'junegunn/vim-emoji'
+Plug 'junegunn/vim-pseudocl'
+Plug 'junegunn/vim-oblique'
+Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'junegunn/vim-easy-align'
+Plug 'tpope/vim-tbone'
+Plug 'pmeinhardt/thrasher'
 
 " Syntaxes
-Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
+Plug 'isRuslan/vim-es6'
 Plug 'plasticboy/vim-markdown', { 'for': 'mkd' }
 Plug 'tpope/vim-rails', { 'for': 'ruby' }
 Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 Plug 'chase/vim-ansible-yaml', { 'for': 'ansible' }
-Plug 'isRuslan/vim-es6'
+Plug 'lambdatoast/elm.vim'
+Plug 'vim-scripts/VimClojure'
+Plug 'rust-lang/rust.vim'
+Plug 'elixir-lang/vim-elixir'
+Plug 'slashmili/alchemist.vim'
 
 " Themes
 Plug 'junegunn/seoul256.vim'
@@ -40,6 +50,12 @@ Plug 'reedes/vim-colors-pencil'
 Plug 'scwood/vim-hybrid'
 Plug 'Lokaltog/vim-distinguished'
 Plug 'morhetz/gruvbox'
+Plug 'mhartington/oceanic-next'
+
+" Productivity
+Plug 'mnick/vim-pomodoro'
+
+" JavaScript setup
 
 call plug#end()
 
@@ -64,6 +80,7 @@ set noswapfile
 set pastetoggle=<C-\>
 set guioptions-=r
 set guioptions-=L
+set tw=80
 
 " ---------------------------------------------------------------------------
 " Local file type settings
@@ -132,17 +149,20 @@ set statusline+=%*
 
 nnoremap <C-N> :NERDTreeToggle<CR>
 
-nnoremap <C-Z> :CtrlP<CR>
 nnoremap <C-A> :Ack!<space>
-nnoremap <C-X> :AckFromSearch!<CR>
 
-let g:seoul256_background = 233
-colo distinguished
+syntax enable
+set t_Co=256
+colorscheme OceanicNext
+set background=dark
+
 nnoremap <F5> :GundoToggle<CR>
 nnoremap <C-E> :TagbarToggle<CR>
+map <C-c> "+y<CR>
 
 set noshowmode
 let g:airline_powerline_fonts = 1
+let g:limelight_conceal_ctermfg = 1
 
 " remove white space on save
 autocmd BufWritePre * :%s/\s\+$//e
@@ -178,47 +198,6 @@ function! Pandoc()
 	!pandoc expand("%:p") -o expand("%:p:r")
 endfunction
 
-"if exists("&relativenumber")
-"  set relativenumber
-"  au BufReadPost * set relativenumber
-" endif
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" RENAME CURRENT FILE
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! RenameFile()
-	let old_name = expand('%')
-	let new_name = input('New file name: ', expand('%'), 'file')
-	if new_name != '' && new_name != old_name
-		exec ':saveas ' . new_name
-		exec ':silent !rm ' . old_name
-		redraw!
-	endif
-endfunction
-"map <leader>n :call RenameFile()<cr>
-
-
-let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
-
-" toggles between showing tabs and using standard listchars
-function! SeeTab()
-  if !exists("g:SeeTabEnabled")
-    let g:SeeTabEnabled = 1
-    let g:SeeTab_list = &list
-    let g:SeeTab_listchars = &listchars
-    set listchars=eol:¬,tab:\|\·,trail:~
-    set list
-  else
-    let &list = g:SeeTab_list
-    let &listchars = &listchars
-    silent! exe "hi ".substitute(g:SeeTabSpecialKey,'xxx','','e')
-    unlet g:SeeTabEnabled g:SeeTab_list g:SeeTab_listchars
-  endif
-endfunc
-com! -nargs=0 SeeTab :call SeeTab()
-
 function! SeeAll()
   if !exists("g:SeeTabEnabled")
     let g:SeeTabEnabled = 1
@@ -235,4 +214,15 @@ function! SeeAll()
 endfunc
 com! -nargs=0 SeeAll :call SeeAll()
 
-SeeAll
+" Duration of a pomodoro in minutes (default: 25)
+let g:pomodoro_time_work = 25
+"
+" " Duration of a break in minutes (default: 5)
+let g:pomodoro_time_slack = 5
+"
+" " Log completed pomodoros, 0 = False, 1 = True (default: 0)
+let g:pomodoro_do_log = 0
+"
+" " Path to the pomodoro log file (default: /tmp/pomodoro.log)
+let g:pomodoro_log_file = "/tmp/pomodoro.log"
+set statusline=%#ErrorMsg#%{PomodoroStatus()}%#StatusLine#
