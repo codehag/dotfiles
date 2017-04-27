@@ -45,11 +45,9 @@ ZSH_THEME="pygmalion"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git ssh-agent cap ruby rails rvm vagrant archlinux z bundler coffee node npm python)
+plugins=(git vagrant z node npm)
 
 # User configuration
-
-#export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -59,14 +57,9 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+export EDITOR='vim'
 
 # Compilation flags
-# export ARCHFLAGS="-arch x86_64"
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
@@ -79,9 +72,7 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias bat="upower -i /org/freedesktop/UPower/devices/DisplayDevice"
 alias v="vim"
-alias zshrc='$EDITOR ~/.zshrc' # Quick access to the ~/.zshrc file
 alias la='ll -a'
 alias grep='grep --color'
 alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS} '
@@ -115,11 +106,5 @@ alias unexport='unset'
 alias whereami=display_info
 
 export PATH="$PATH:/usr/local/bin"
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-export PYTHONPATH="${PYTHONPATH}:$HOME/sites"
 
-export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
-export TERM="screen-256color"
-source ~/.profile
-
-
+# export TERM="screen-256color"
