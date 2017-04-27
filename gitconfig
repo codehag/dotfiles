@@ -4,7 +4,7 @@
   ba = branch -a
   ci = commit
   co = checkout
-  corebase = "!f(){ git checkout ${1} && git stash && git rebase master && git stash pop; };f" 
+  corebase = "!f(){ git checkout ${1} && git stash && git rebase master && git stash pop; };f"
   d = diff
   dc = diff --cached
   dw = diff --color-words
@@ -25,7 +25,6 @@
   rci =commit --amend --reuse-message=HEAD
   rerebase = "!f(){ git stash && git rebase master && git stash pop; };f"
   rmbranch = "!f(){ git branch -d ${1} && git push origin --delete ${1}; };f"
-  s = status
   serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
   sra = svn rebase --all
   sh = !git-sh
