@@ -1,15 +1,14 @@
 call plug#begin('~/.vim/plugged')
 
+" General
 Plug 'tpope/vim-sensible'
 Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'pmsorhaindo/syntastic-local-eslint.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'https://github.com/kien/ctrlp.vim'
 Plug 'tpope/vim-bundler'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
-Plug 'vim-scripts/matchit.zip'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'mileszs/ack.vim', { 'on': 'Ack' }
 Plug 'bling/vim-airline'
@@ -27,12 +26,11 @@ Plug 'tpope/vim-tbone'
 Plug 'pmeinhardt/thrasher'
 
 " Syntaxes
+Plug 'pmsorhaindo/syntastic-local-eslint.vim'
 Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 Plug 'isRuslan/vim-es6'
 Plug 'plasticboy/vim-markdown', { 'for': 'mkd' }
 Plug 'tpope/vim-rails', { 'for': 'ruby' }
-Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
-Plug 'chase/vim-ansible-yaml', { 'for': 'ansible' }
 Plug 'lambdatoast/elm.vim'
 Plug 'vim-scripts/VimClojure'
 Plug 'rust-lang/rust.vim'
@@ -80,22 +78,18 @@ set noswapfile
 set pastetoggle=<C-\>
 set guioptions-=r
 set guioptions-=L
-set tw=80
+set tw=100
 
 " ---------------------------------------------------------------------------
 " Local file type settings
 " ---------------------------------------------------------------------------
 " autocmd FileType javascript setlocal shiftwidth=4 tabstop=4
 
-cnoremap <SPACE><SPACE> <ENTER>
 inoremap jj <esc>
 nnoremap ; :
 
 " re-open read-only files with sudo
 cnoremap w!! w !sudo sh -c "cat > %"
-
-" code search with zeal
-nnoremap gz :!zeal --query "<cword>"&<CR><CR>
 
 " window navigation
 nnoremap <C-J> <C-W>j
@@ -106,18 +100,14 @@ nnoremap <C-L> <C-W>l
 " ----------------------------------------------------------------------------
 " <tab> / <s-tab> | Circular windows navigation
 " ----------------------------------------------------------------------------
-"nnoremap <tab> <c-w>w
-"nnoremap <S-tab> <c-w>W
-
 nnoremap <tab> gt
 nnoremap <S-tab> gT
 
 " ----------------------------------------------------------------------------
 " syntastic setup
 " ----------------------------------------------------------------------------
-
 let g:syntastic_mode_map = { 'mode': 'active',
-                            \ 'active_filetypes': ['python', 'javascript', 'jsx' ],
+                            \ 'active_filetypes': ['javascript', 'jsx' ],
                             \ 'passive_filetypes': [] }
 
 let g:syntastic_always_populate_loc_list = 1
@@ -127,8 +117,6 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_loc_list_height = 3
 let g:syntastic_javascript_checkers = ['eslint']
 
-" let g:airline#extensions#tabline#enabled = 1
-" let g:airline_section_y = '#%{bufnr("%")}'
 let g:airline_powerline_fonts = 1
 let g:airline_theme='dark'
 
@@ -136,7 +124,7 @@ let g:airline_theme='dark'
 let g:ctrlp_match_window = 'max:30'
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = {
-  \ 'dir': '\.bundle$',
+  \ 'dir': ['\.bundle$', 'node_modules', 'dist'],
   \ 'file': 'tags$',
   \ }
 
@@ -144,7 +132,7 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 " ----------------------------------------------------------------------------
-" general setup
+" General Setup
 " ----------------------------------------------------------------------------
 
 nnoremap <C-N> :NERDTreeToggle<CR>
@@ -171,48 +159,8 @@ autocmd BufWritePre * :%s/\s\+$//e
 au BufRead,BufNewFile *.hamlc set ft=haml
 
 " ----------------------------------------------------------------------------
-" <F6> | Color scheme selector
+" Time Management
 " ----------------------------------------------------------------------------
-function! s:rotate_colors()
-	if !exists('s:colors_list')
-		let s:colors_list =
-					\ sort(map(
-					\ filter(split(globpath(&rtp, "colors/*.vim"), "\n"), 'v:val !~ "^/usr/"'),
-					\ "substitute(fnamemodify(v:val, ':t'), '\\..\\{-}$', '', '')"))
-	endif
-	if !exists('s:colors_index')
-		let s:colors_index = index(s:colors_list, g:colors_name)
-	endif
-	let s:colors_index = (s:colors_index + 1) % len(s:colors_list)
-	let name = s:colors_list[s:colors_index]
-	execute 'colorscheme' name
-	redraw
-	echo name
-endfunction
-nnoremap <F6> :call <SID>rotate_colors()<cr>
-
-" TODO make this work :)
-function! Pandoc()
-	let l:from = expand("%:p")
-	let l:to = expand("%:p:r")
-	!pandoc expand("%:p") -o expand("%:p:r")
-endfunction
-
-function! SeeAll()
-  if !exists("g:SeeTabEnabled")
-    let g:SeeTabEnabled = 1
-    let g:SeeTab_list = &list
-    let g:SeeTab_listchars = &listchars
-    set listchars=tab:\|\·,trail:~,extends:>,precedes:<,space:\·
-    set list
-  else
-    let &list = g:SeeTab_list
-    let &listchars = &listchars
-    silent! exe "hi ".substitute(g:SeeTabSpecialKey,'xxx','','e')
-    unlet g:SeeTabEnabled g:SeeTab_list g:SeeTab_listchars
-  endif
-endfunc
-com! -nargs=0 SeeAll :call SeeAll()
 
 " Duration of a pomodoro in minutes (default: 25)
 let g:pomodoro_time_work = 25
