@@ -1,0 +1,9 @@
+selectp -t 0 # select the first (0) pane
+send-keys 'vim' Enter # start vim
+splitw -h -p 40 # split it
+
+selectp -t 1 # select the new, second (1) pane
+send-keys 'npm run test:watch || echo "no test:watch command supported"' Enter # start testing environment
+splitw -v -p 50 # split it into two halves
+
+selectp -t 0 # go back to the first pane
