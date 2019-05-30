@@ -12,18 +12,12 @@ Plug 'tpope/vim-surround'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'mileszs/ack.vim', { 'on': 'Ack' }
 Plug 'bling/vim-airline'
-Plug 'tpope/vim-fugitive'
-Plug 'sjl/gundo.vim'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'majutsushi/tagbar'
-Plug 'ternjs/tern_for_vim'
-Plug 'junegunn/vim-emoji'
 Plug 'junegunn/vim-pseudocl'
 Plug 'junegunn/vim-oblique'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-tbone'
-Plug 'pmeinhardt/thrasher'
 
 " Syntaxes
 Plug 'pmsorhaindo/syntastic-local-eslint.vim'
@@ -79,6 +73,10 @@ set pastetoggle=<C-\>
 set guioptions-=r
 set guioptions-=L
 set tw=100
+
+if has('nvim')
+  runtime! plugin/python_setup.vim
+endif
 
 " ---------------------------------------------------------------------------
 " Local file type settings
@@ -141,10 +139,9 @@ nnoremap <C-A> :Ack!<space>
 
 syntax enable
 set t_Co=256
-colorscheme OceanicNext
+colorscheme solarized
 set background=dark
 
-nnoremap <F5> :GundoToggle<CR>
 nnoremap <C-E> :TagbarToggle<CR>
 map <C-c> "+y<CR>
 

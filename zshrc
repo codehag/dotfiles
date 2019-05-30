@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/home/io/.oh-my-zsh
+export ZSH=/Users/yuliastartsev/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -108,3 +108,4 @@ alias whereami=display_info
 export PATH="$PATH:/usr/local/bin"
 
 # export TERM="screen-256color"
+export PATH="$HOME/.mozbuild/arcanist/bin:$HOME/.mozbuild/moz-phab:$PATH"
