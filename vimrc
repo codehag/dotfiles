@@ -5,22 +5,19 @@ Plug 'tpope/vim-sensible'
 Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Yggdroot/indentLine'
-Plug 'https://github.com/kien/ctrlp.vim'
 Plug 'tpope/vim-bundler'
 Plug 'godlygeek/tabular'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-surround'
-Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'mileszs/ack.vim', { 'on': 'Ack' }
 Plug 'bling/vim-airline'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'junegunn/vim-pseudocl'
-Plug 'junegunn/vim-oblique'
+Plug 'junegunn/vim-slash'
 Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'junegunn/vim-easy-align'
-Plug 'tpope/vim-tbone'
 
 " Syntaxes
 Plug 'pmsorhaindo/syntastic-local-eslint.vim'
+Plug 'flowtype/vim-flow'
 Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 Plug 'isRuslan/vim-es6'
 Plug 'plasticboy/vim-markdown', { 'for': 'mkd' }
@@ -30,24 +27,12 @@ Plug 'vim-scripts/VimClojure'
 Plug 'rust-lang/rust.vim'
 Plug 'elixir-lang/vim-elixir'
 Plug 'slashmili/alchemist.vim'
+Plug 'idris-hackers/idris-vim'
+Plug 'hellerve/carp-vim'
+Plug 'the-lambda-church/coquille'
 
 " Themes
-Plug 'junegunn/seoul256.vim'
-Plug 'gregsexton/Muon'
-Plug 'vim-scripts/256-grayvim'
-Plug 'croaker/mustang-vim'
-Plug 'CruizeMissile/Revolution.vim'
 Plug 'altercation/vim-colors-solarized'
-Plug 'reedes/vim-colors-pencil'
-Plug 'scwood/vim-hybrid'
-Plug 'Lokaltog/vim-distinguished'
-Plug 'morhetz/gruvbox'
-Plug 'mhartington/oceanic-next'
-
-" Productivity
-Plug 'mnick/vim-pomodoro'
-
-" JavaScript setup
 
 call plug#end()
 
@@ -86,9 +71,6 @@ endif
 inoremap jj <esc>
 nnoremap ; :
 
-" re-open read-only files with sudo
-cnoremap w!! w !sudo sh -c "cat > %"
-
 " window navigation
 nnoremap <C-J> <C-W>j
 nnoremap <C-K> <C-W>k
@@ -116,15 +98,20 @@ let g:syntastic_loc_list_height = 3
 let g:syntastic_javascript_checkers = ['eslint']
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme='dark'
+let g:airline_theme='light'
 
 " show max 30 search results (default is 10)
 let g:ctrlp_match_window = 'max:30'
 let g:ctrlp_show_hidden = 1
+
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_custom_ignore = {
-  \ 'dir': ['\.bundle$', 'node_modules', 'dist'],
-  \ 'file': 'tags$',
+  \ 'dir':  '\v[\/]\.(git|hg|svn|bundle)|node_modules|dist$',
+  \ 'file': '\v\.(exe|so|dll)|tags$',
   \ }
+let g:ctrlp_lazy_update=1
+let g:ctrlp_max_files=0
+let g:ctrlp_max_depth=40
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -140,10 +127,12 @@ nnoremap <C-A> :Ack!<space>
 syntax enable
 set t_Co=256
 colorscheme solarized
-set background=dark
+set background=light
+let g:syntastic_carp_checkers = ['carp']
 
-nnoremap <C-E> :TagbarToggle<CR>
-map <C-c> "+y<CR>
+syntax on
+filetype on
+filetype plugin indent on
 
 set noshowmode
 let g:airline_powerline_fonts = 1
@@ -152,22 +141,7 @@ let g:limelight_conceal_ctermfg = 1
 " remove white space on save
 autocmd BufWritePre * :%s/\s\+$//e
 
+set shell=/bin/bash
+
 " file type tweaks
 au BufRead,BufNewFile *.hamlc set ft=haml
-
-" ----------------------------------------------------------------------------
-" Time Management
-" ----------------------------------------------------------------------------
-
-" Duration of a pomodoro in minutes (default: 25)
-let g:pomodoro_time_work = 25
-"
-" " Duration of a break in minutes (default: 5)
-let g:pomodoro_time_slack = 5
-"
-" " Log completed pomodoros, 0 = False, 1 = True (default: 0)
-let g:pomodoro_do_log = 0
-"
-" " Path to the pomodoro log file (default: /tmp/pomodoro.log)
-let g:pomodoro_log_file = "/tmp/pomodoro.log"
-set statusline=%#ErrorMsg#%{PomodoroStatus()}%#StatusLine#
