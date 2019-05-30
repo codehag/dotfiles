@@ -33,6 +33,7 @@ Plug 'the-lambda-church/coquille'
 
 " Themes
 Plug 'altercation/vim-colors-solarized'
+Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 
@@ -98,7 +99,7 @@ let g:syntastic_loc_list_height = 3
 let g:syntastic_javascript_checkers = ['eslint']
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme='light'
+let g:airline_theme='solarized'
 
 " show max 30 search results (default is 10)
 let g:ctrlp_match_window = 'max:30'
@@ -137,6 +138,7 @@ filetype plugin indent on
 set noshowmode
 let g:airline_powerline_fonts = 1
 let g:limelight_conceal_ctermfg = 1
+let g:airline#extensions#tabline#enabled = 1
 
 " remove white space on save
 autocmd BufWritePre * :%s/\s\+$//e
