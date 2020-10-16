@@ -1,11 +1,14 @@
 mk_add_options AUTOCLOBBER=1
 
-#ac_add_options --with-macos-sdk=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk
+ac_add_options --with-macos-sdk=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk
 
-ac_add_options --enable-artifact-builds
-ac_add_options --enable-cdp
+#ac_add_options --enable-artifact-builds
+#ac_add_options --enable-cdp
 ac_add_options --enable-tests
-#ac_add_options --enable-debug
+ac_add_options --enable-debug
+
+# Build only js
+ac_add_options --enable-application=js
 
 # Write build artifacts to:
 mk_add_options MOZ_OBJDIR=./objdir-frontend

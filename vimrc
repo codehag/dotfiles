@@ -30,6 +30,7 @@ Plug 'slashmili/alchemist.vim'
 Plug 'idris-hackers/idris-vim'
 Plug 'hellerve/carp-vim'
 Plug 'the-lambda-church/coquille'
+Plug 'octol/vim-cpp-enhanced-highlight'
 
 " Themes
 Plug 'altercation/vim-colors-solarized'
@@ -87,16 +88,28 @@ nnoremap <S-tab> gT
 " ----------------------------------------------------------------------------
 " syntastic setup
 " ----------------------------------------------------------------------------
-let g:syntastic_mode_map = { 'mode': 'active',
-                            \ 'active_filetypes': ['javascript', 'jsx' ],
+let g:syntastic_mode_map = { 'mode': 'passive',
+                            \ 'active_filetypes': ['javascript', 'jsx', 'cpp', 'h' ],
                             \ 'passive_filetypes': [] }
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_loc_list_height = 3
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_cpp_checkers = ['clang++']
+" let g:syntastic_cpp_include_dirs = [ 'js/src', 'mfbt' ]
+" let g:syntastic_cpp_check_header = 0
+" let g:syntastic_cpp_remove_include_errors = 1
+
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 
 let g:airline_powerline_fonts = 1
 let g:airline_theme='solarized'
@@ -114,9 +127,7 @@ let g:ctrlp_lazy_update=1
 let g:ctrlp_max_files=0
 let g:ctrlp_max_depth=40
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+
 " ----------------------------------------------------------------------------
 " General Setup
 " ----------------------------------------------------------------------------
@@ -134,6 +145,11 @@ let g:syntastic_carp_checkers = ['carp']
 syntax on
 filetype on
 filetype plugin indent on
+
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+let g:cpp_experimental_template_highlight = 1
 
 set noshowmode
 let g:airline_powerline_fonts = 1
