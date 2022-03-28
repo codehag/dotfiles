@@ -104,11 +104,12 @@ alias sortnr='sort -n -r'
 alias unexport='unset'
 
 alias whereami=display_info
+alias hrudl='ssh pi@malina.local hrudl'
 
 export PATH="$PATH:/usr/local/bin"
 
 # export TERM="screen-256color"
-export PATH="$HOME/.mozbuild/arcanist/bin:$HOME/.mozbuild/moz-phab:$PATH"
+export PATH="$HOME/Work/smoosh-tools/bin:$HOME/.mozbuild/arcanist/bin:$HOME/.mozbuild/moz-phab:$PATH"
 source /Users/user/.cargo/env
 
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
@@ -134,3 +135,5 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 export PATH="/usr/local/opt/bison/bin:$PATH"
+export PATH="/usr/local/opt/llvm/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH"
