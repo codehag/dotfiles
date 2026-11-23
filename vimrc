@@ -4,16 +4,15 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
 Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'Yggdroot/indentLine'
 Plug 'tpope/vim-bundler'
 Plug 'godlygeek/tabular'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-surround'
 Plug 'mileszs/ack.vim', { 'on': 'Ack' }
-Plug 'bling/vim-airline'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'junegunn/vim-slash'
 Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'ggml-org/llama.vim'
 
 " Syntaxes
 Plug 'pmsorhaindo/syntastic-local-eslint.vim'
@@ -34,7 +33,6 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 
 " Themes
 Plug 'altercation/vim-colors-solarized'
-Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 
@@ -92,10 +90,6 @@ let g:syntastic_mode_map = { 'mode': 'passive',
                             \ 'active_filetypes': ['javascript', 'jsx', 'cpp', 'h' ],
                             \ 'passive_filetypes': [] }
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -110,9 +104,6 @@ let g:syntastic_cpp_checkers = ['clang++']
 
 let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
-
-let g:airline_powerline_fonts = 1
-let g:airline_theme='solarized'
 
 " show max 30 search results (default is 10)
 let g:ctrlp_match_window = 'max:30'
@@ -144,7 +135,6 @@ let g:syntastic_carp_checkers = ['carp']
 
 syntax on
 filetype on
-filetype plugin indent on
 
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
@@ -152,10 +142,6 @@ let g:cpp_class_decl_highlight = 1
 let g:cpp_experimental_template_highlight = 1
 
 set noshowmode
-let g:airline_powerline_fonts = 1
-let g:limelight_conceal_ctermfg = 1
-let g:airline#extensions#tabline#enabled = 1
-
 " remove white space on save
 autocmd BufWritePre * :%s/\s\+$//e
 
